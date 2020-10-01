@@ -2,6 +2,10 @@ FROM mcr.microsoft.com/dotnet/core/runtime:3.1-bionic
 
 ARG Powershell_Version=7.0.3\*
 ARG Octopus_Cli_Version=7.4.1
+ARG Node_Version=12.18.4\*
+ARG Kubectl_Version=1.18.8-00
+ARG Helm_Version=v3.3.0
+ARG Terraform_Version=0.13.0
 
 RUN apt-get update && \
     apt-get install -y wget unzip apt-utils curl software-properties-common  
@@ -24,6 +28,26 @@ RUN apt-get update && \
 
 # Get python & groff
 RUN apt-get install -y python3-pip groff
+
+# Get NodeJS
+# https://websiteforstudents.com/how-to-install-node-js-10-11-12-on-ubuntu-16-04-18-04-via-apt-and-snap/\
+RUN wget --quiet -O - https://deb.nodesource.com/setup_12.x | bash && \
+    apt-get install -y nodejs=${Node_Version}
+
+# Get Kubectl
+# https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-using-native-package-management
+RUN wget --quiet -O - https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -  && \
+    echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list && \
+    apt-get update && apt-get install -y kubectl=${Kubectl_Version}
+
+# Get Helm3
+RUN wget --quiet -O - https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash -s -- -v ${Helm_Version}
+
+# Get Terraform
+# https://computingforgeeks.com/how-to-install-terraform-on-ubuntu-centos-7/
+RUN wget https://releases.hashicorp.com/terraform/${Terraform_Version}/terraform_${Terraform_Version}_linux_amd64.zip && \
+    unzip terraform_${Terraform_Version}_linux_amd64.zip && \
+    mv terraform /usr/local/bin
 
 # Get common utilities for scripting
 # https://mikefarah.gitbook.io/yq/

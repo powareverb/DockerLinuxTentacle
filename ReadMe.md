@@ -15,6 +15,10 @@ The docker image includes tooling to make it easy to get going right from the st
 - openssh-client 
 - git 
 - Docker
+- kubectl
+- terraform
+- nodejs
+- helm
 
 # Docker Image information
 The docker container has a few self-imposed limitations.
