@@ -29,7 +29,6 @@ ENV SPACE="Default"
 ENV TARGET_WORKER_POOL=""
 ENV MACHINE_POLICY_NAME="Default Machine Policy"
 ENV COMMUNICATION_TYPE="Polling"
-ENV DISABLE_DIND=N
 ENV ACCEPT_EULA=N
 
 CMD /scripts/configure-tentacle.sh && /scripts/run-tentacle.sh

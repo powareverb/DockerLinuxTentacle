@@ -10,7 +10,7 @@ There are four images to help get you started.
 - `tentacle`: this is the base image which includes just enough to run the tentacle.  Based on `mcr.microsoft.com/dotnet/core/runtime-deps`.
 - `tentacle-worker`: includes a variety of software to get started using this tentacle as a worker.  Based on `tentacle`.
 - `tentacle-k8sworker`: similar to the `tentacle-worker` but only includes the software useful for kubernetes deployments.  Based on `tentacle`.
-- `tentacle-executioncontainer`: only includes the necessary software to run the [execution container feature](https://octopus.com/docs/deployment-process/execution-containers-for-workers) in Octopus Deploy.  Based on `tentacle`.
+- `tentacle-executioncontainer`: only includes the necessary software to run the [execution container feature](https://octopus.com/docs/deployment-process/execution-containers-for-workers) in Octopus Deploy.  Based on `mcr.microsoft.com/dotnet/core/runtime-deps`.
 
 ## Tentacle
 This is the bare bones to run a tentacle as a docker container.  It is based on the latest .NET Core runtime dependencies `3.1-bionic` image provided by Microsoft.  
@@ -95,7 +95,7 @@ The docker container has a few self-imposed limitations.
 - **SPACE**: The name of the [space](https://octopus.com/docs/administration/spaces) to register the tentacle with.  Default is Default.
 - **COMMUNICATION_TYPE**: Whether you are using [polling tentacles or listening tentacles](https://octopus.com/docs/infrastructure/deployment-targets/windows-targets/tentacle-communication).  Default is Polling.
 - **MACHINE_POLICY_NAME**: The name of the [machine policy](https://octopus.com/docs/infrastructure/deployment-targets/machine-policies) to associate the container with.  Defaults to `Default Machine Policy.`
-- **DISABLE_DIND**: Indicates if docker in docker should be disabled.  Defaults to N.
+- **DISABLE_DIND**: Indicates if docker in docker should be disabled.  Defaults to N.  Only for `tentacle-executioncontainer` image only.
 - **ACCEPT_EULA**: You must accept the [Octopus Deploy EULA](https://octopus.com/legal/customer-agreement).
 
 ## Ports
