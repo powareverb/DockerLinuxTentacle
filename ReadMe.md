@@ -5,7 +5,12 @@ This repository contains the docker files to build a sample Linux-based Docker i
 This docker image was created by the Octopus Advisory Team as an example for our users so they could build their own docker images.  It is used internally and it should work for 99% of your use cases, it is not officially supported.  Please do not contact support if you run into issues with this image. 
 
 # Images
-There are four images to help get you started.
+There are four images to help get you started.  
+
+- `tentacle`: this is the base image which includes just enough to run the tentacle.  Based on `mcr.microsoft.com/dotnet/core/runtime-deps`.
+- `tentacle-worker`: includes a variety of software to get started using this tentacle as a worker.  Based on `tentacle`.
+- `tentacle-k8sworker`: similar to the `tentacle-worker` but only includes the software useful for kubernetes deployments.  Based on `tentacle`.
+- `tentacle-executioncontainer`: only includes the necessary software to run the [execution container feature](https://octopus.com/docs/deployment-process/execution-containers-for-workers) in Octopus Deploy.  Based on `tentacle`.
 
 ## Tentacle
 This is the bare bones to run a tentacle as a docker container.  It is based on the latest .NET Core runtime dependencies `3.1-bionic` image provided by Microsoft.  
