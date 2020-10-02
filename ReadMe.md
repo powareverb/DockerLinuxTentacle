@@ -1,24 +1,73 @@
 # Docker Linux Tentacle
-This is a sample Linux-based Docker image that houses a tentacle for [Octopus Deploy](https://octopus.com).
+This repository contains the docker files to build a sample Linux-based Docker image that houses a tentacle for [Octopus Deploy](https://octopus.com).
 
 # This docker image is provided as is
-This docker image was created by the Octopus Advisory Team as an example for our users so they could build their own docker images.  It is used internally and it should work for 99% of your use cases, it is not officially supported.  Please do not contact support if you run into issues with this image.  
+This docker image was created by the Octopus Advisory Team as an example for our users so they could build their own docker images.  It is used internally and it should work for 99% of your use cases, it is not officially supported.  Please do not contact support if you run into issues with this image. 
 
-# What's in the box
-The docker image includes tooling to make it easy to get going right from the start.
+# Images
+There are four images to help get you started.
+
+## Tentacle
+This is the bare bones to run a tentacle as a docker container.  It is based on the latest .NET Core runtime dependencies `3.1-bionic` image provided by Microsoft.  
+
+It includes the following software:
+
+- wget 
+- unzip 
+- apt-utils 
+- curl 
+- software-properties-common
+
+If you are going to create a custom image, this is the one to create it from.
+
+## Tentacle-Worker
+Built on top of the tentacle image.  It includes useful software so it can be used as a worker.  It includes all the software from the tentacle image plus:
 
 - PowerShell Core
+- Octopus Client
 - Octopus Deploy CLI
-- .NET Core 3.1.x
 - python
 - groff
+- az modules
+- azure cli
+- jdk
+- maven
+- gradle
+- gcp cli
+- aws cli
+- eks cli
+- ecs cli
+- aws IAM authenticator
 - openssh-client 
 - git 
-- Docker
 - kubectl
 - terraform
 - nodejs
 - helm
+- istio
+- linkerd
+- skopeo
+
+## Tentacle-K8sWorker
+Built on top of the tentacle image.  Unlike the tentacle-worker, this only includes the software necessary for kubernetes deployments.
+
+- az modules
+- azure cli
+- gcp cli
+- aws cli
+- eks cli
+- ecs cli
+- aws IAM authenticator
+- openssh-client 
+- git 
+- kubectl
+- helm
+- istio
+- linkerd
+- skopeo
+
+## Tentacle-ExecutionContainer
+Built on top of the tentacle image.  It includes all the software from the base tentacle image plus the necessary software to use the [execution container feature](https://octopus.com/docs/deployment-process/execution-containers-for-workers) in Octopus Deploy.
 
 # Docker Image information
 The docker container has a few self-imposed limitations.

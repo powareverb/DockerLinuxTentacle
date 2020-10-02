@@ -1,0 +1,93 @@
+name: Docker-push
+
+on:
+  push:
+    # Publish `v1.2.3` tags as releases.
+    tags:
+      - v*  
+env:
+  BASE_IMAGE_NAME: octopuslabs/tentacle
+  WORKER_IMAGE_NAME: octopuslabs/tentacle-worker
+  EXECUTION_CONTAINER_IMAGE_NAME: octopuslabs/tentacle-executioncontainer
+  K8S_IMAGE_NAME: octopuslabs/tentacle-k8sworker
+
+jobs:
+  # Push image to GitHub Packages.
+  # See also https://docs.docker.com/docker-hub/builds/
+  push:    
+    name: Build and Push Docker Image
+
+    runs-on: ubuntu-latest    
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build base image
+        run: docker build ./base --tag $BASE_IMAGE_NAME
+
+      - name: Log into DockerHub
+      # TODO: Create a PAT with `read:packages` and `write:packages` scopes and save it as an Actions secret `CR_PAT`
+        run: echo "${{ secrets.CR_PAT }}" | docker login -u devopsatoctopus --password-stdin
+
+      - name: Push base image to DockerHub
+        run: |        
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          # Strip "v" prefix from tag name
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')                    
+          echo VERSION=$VERSION
+
+          docker tag $BASE_IMAGE_NAME $BASE_IMAGE_NAME:latest
+          docker tag $BASE_IMAGE_NAME $BASE_IMAGE_NAME:$VERSION
+          docker push $BASE_IMAGE_NAME:$VERSION
+          docker push $BASE_IMAGE_NAME:latest
+
+      - name: Build worker image
+        run: docker build ./tentacle-worker --tag $WORKER_IMAGE_NAME
+  
+      - name: Push worker image to DockerHub
+        run: |        
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          # Strip "v" prefix from tag name
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')                    
+          echo VERSION=$VERSION
+
+          docker tag $WORKER_IMAGE_NAME $WORKER_IMAGE_NAME:latest
+          docker tag $WORKER_IMAGE_NAME $WORKER_IMAGE_NAME:$VERSION
+          docker push $WORKER_IMAGE_NAME:$VERSION
+          docker push $WORKER_IMAGE_NAME:latest
+
+      - name: Build execution container image
+        run: docker build ./tentacle-executioncontainer --tag $EXECUTION_CONTAINER_IMAGE_NAME
+
+      - name: Push execution container image to DockerHub
+        run: |        
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          # Strip "v" prefix from tag name
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')                    
+          echo VERSION=$VERSION
+
+          docker tag $EXECUTION_CONTAINER_IMAGE_NAME $EXECUTION_CONTAINER_IMAGE_NAME:latest
+          docker tag $EXECUTION_CONTAINER_IMAGE_NAME $EXECUTION_CONTAINER_IMAGE_NAME:$VERSION
+          docker push $EXECUTION_CONTAINER_IMAGE_NAME:$VERSION
+          docker push $EXECUTION_CONTAINER_IMAGE_NAME:latest
+
+      - name: Build k8s image
+        run: docker build ./tentacle-executioncontainer --tag $K8S_IMAGE_NAME
+  
+      - name: Push k8s image to DockerHub
+        run: |        
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          # Strip "v" prefix from tag name
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')                    
+          echo VERSION=$VERSION
+
+          docker tag $K8S_IMAGE_NAME $K8S_IMAGE_NAME:latest
+          docker tag $K8S_IMAGE_NAME $K8S_IMAGE_NAME:$VERSION
+          docker push $K8S_IMAGE_NAME:$VERSION
+          docker push $K8S_IMAGE_NAME:latest
+
+
