@@ -4,15 +4,12 @@ ARG Powershell_Version=7.0.3\*
 ARG Octopus_Cli_Version=7.4.1
 ARG Octopus_Client_Version=8.8.3
 ARG Azure_Cli_Version=2.10.1\*
-ARG Azure_Powershell_Version=4.5.0
-ARG Helm_Version=v3.3.0
+ARG Azure_Powershell_Version=4.7.0
 ARG Node_Version=12.18.4\*
-ARG Kubectl_Version=1.18.8-00
 ARG Terraform_Version=0.13.0
 ARG Eks_Cli_Version=0.25.0
 ARG Ecs_Cli_Version=1.20.0
 ARG Aws_Iam_Authenticator_Version=0.5.1
-ARG Umoci_Version=0.4.6
 
 # get powershell for 18.04
 RUN wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb && \

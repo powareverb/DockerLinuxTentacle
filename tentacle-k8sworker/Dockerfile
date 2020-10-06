@@ -1,7 +1,7 @@
 FROM octopuslabs/tentacle:latest
 
 ARG Azure_Cli_Version=2.10.1\*
-ARG Azure_Powershell_Version=4.5.0
+ARG Azure_Powershell_Version=4.7.0
 ARG Helm_Version=v3.3.0
 ARG Kubectl_Version=1.18.8-00
 ARG Eks_Cli_Version=0.25.0
