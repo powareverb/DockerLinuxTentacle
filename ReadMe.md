@@ -5,11 +5,14 @@ This repository contains the docker files to build a sample Linux-based Docker i
 This docker image was created by the Octopus Advisory Team as an example for our users so they could build their own docker images.  It is used internally and it should work for 99% of your use cases, it is not officially supported.  Please do not contact support if you run into issues with this image. 
 
 # Images
-There are four images to help get you started.  
+There are seven images to help get you started.  
 
 - `tentacle`: this is the base image which includes just enough to run the tentacle.  Based on `mcr.microsoft.com/dotnet/core/runtime-deps`.
 - `tentacle-worker`: includes a variety of software to get started using this tentacle as a worker.  Based on `tentacle`.
 - `tentacle-k8sworker`: similar to the `tentacle-worker` but only includes the software useful for kubernetes deployments.  Based on `tentacle`.
+- `tentacle-dotnetcoreworker`: similar to the `tentacle-worker` but only includes the software useful when deployments need to do work with .NET Core.  Based on `tentacle`.
+- `tentacle-javaworker`: similar to the `tentacle-worker` but only includes the software useful when deployments need to do work with Java.  Based on `tentacle`.
+- `tentacle-nodejsworker`: similar to the `tentacle-worker` but only includes the software useful when deployments need to do work with Node.js.  Based on `tentacle`.
 - `tentacle-executioncontainer`: only includes the necessary software to run the [execution container feature](https://octopus.com/docs/deployment-process/execution-containers-for-workers) in Octopus Deploy.  Based on `mcr.microsoft.com/dotnet/core/runtime-deps`.
 
 ## Tentacle
@@ -52,6 +55,7 @@ Built on top of the tentacle image.  It includes useful software so it can be us
 - istio
 - linkerd
 - skopeo
+- .NET Core SDK
 
 ## Tentacle-K8sWorker
 Built on top of the tentacle image.  Unlike the tentacle-worker, this only includes the software necessary for kubernetes deployments.
@@ -70,6 +74,69 @@ Built on top of the tentacle image.  Unlike the tentacle-worker, this only inclu
 - istio
 - linkerd
 - skopeo
+
+## Tentacle-dotnetcoreworker
+Built on top of the tentacle image.  Unlike the tentacle-worker, this only includes the software necessary when the deployment needs to invoke .NET core commands.
+
+- PowerShell Core
+- Octopus Client
+- Octopus Deploy CLI
+- python
+- groff
+- az modules
+- azure cli
+- gcp cli
+- aws cli
+- eks cli
+- ecs cli
+- aws IAM authenticator
+- openssh-client 
+- git 
+- terraform
+- nodejs
+- .NET Core SDK
+
+## Tentacle-javaworker
+Built on top of the tentacle image.  Unlike the tentacle-worker, this only includes the software necessary when the deployment needs to invoke Java SDK commands.
+
+- PowerShell Core
+- Octopus Deploy CLI
+- python
+- groff
+- az modules
+- azure cli
+- jdk
+- maven
+- gradle
+- gcp cli
+- aws cli
+- eks cli
+- ecs cli
+- aws IAM authenticator
+- openssh-client 
+- git 
+- terraform
+- nodejs
+
+## Tentacle-nodejsworker
+Built on top of the tentacle image.  Unlike the tentacle-worker, this only includes the software necessary when the deployment needs to invoke nodejs commands.
+
+- PowerShell Core
+- Octopus Deploy CLI
+- python
+- groff
+- az modules
+- azure cli
+- gcp cli
+- aws cli
+- eks cli
+- ecs cli
+- aws IAM authenticator
+- openssh-client 
+- git 
+- terraform
+- nodejs
+- helm
 
 ## Tentacle-ExecutionContainer
 Built on top of the tentacle image.  It includes all the software from the base tentacle image plus the necessary software to use the [execution container feature](https://octopus.com/docs/deployment-process/execution-containers-for-workers) in Octopus Deploy.
