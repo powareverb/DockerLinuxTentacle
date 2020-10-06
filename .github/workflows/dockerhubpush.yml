@@ -45,6 +45,54 @@ jobs:
           docker push $BASE_IMAGE_NAME:$VERSION
           docker push $BASE_IMAGE_NAME:latest
 
+      - name: Build .net core image
+        run: docker build ./tentacle-dotnetcoreworker --tag $DOTNET_CORE_IMAGE_NAME
+      
+      - name: Push .net core image to DockerHub
+        run: |        
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          # Strip "v" prefix from tag name
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')                    
+          echo VERSION=$VERSION
+
+          docker tag $DOTNET_CORE_IMAGE_NAME $DOTNET_CORE_IMAGE_NAME:latest
+          docker tag $DOTNET_CORE_IMAGE_NAME $DOTNET_CORE_IMAGE_NAME:$VERSION
+          docker push $DOTNET_CORE_IMAGE_NAME:$VERSION
+          docker push $DOTNET_CORE_IMAGE_NAME:latest
+
+      - name: Build java image
+        run: docker build ./tentacle-javaworker --tag $JAVA_IMAGE_NAME
+      
+      - name: Push java image to DockerHub
+        run: |        
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          # Strip "v" prefix from tag name
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')                    
+          echo VERSION=$VERSION
+
+          docker tag $JAVA_IMAGE_NAME $JAVA_IMAGE_NAME:latest
+          docker tag $JAVA_IMAGE_NAME $JAVA_IMAGE_NAME:$VERSION
+          docker push $JAVA_IMAGE_NAME:$VERSION
+          docker push $JAVA_IMAGE_NAME:latest
+
+      - name: Build nodejs image
+        run: docker build ./tentacle-nodejsworker --tag $NODEJS_IMAGE_NAME
+        
+      - name: Push nodejs image to DockerHub
+        run: |        
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          # Strip "v" prefix from tag name
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')                    
+          echo VERSION=$VERSION
+
+          docker tag $NODEJS_IMAGE_NAME $NODEJS_IMAGE_NAME:latest
+          docker tag $NODEJS_IMAGE_NAME $NODEJS_IMAGE_NAME:$VERSION
+          docker push $NODEJS_IMAGE_NAME:$VERSION
+          docker push $NODEJS_IMAGE_NAME:latest
+
       - name: Build worker image
         run: docker build ./tentacle-worker --tag $WORKER_IMAGE_NAME
   
@@ -92,53 +140,5 @@ jobs:
           docker tag $K8S_IMAGE_NAME $K8S_IMAGE_NAME:$VERSION
           docker push $K8S_IMAGE_NAME:$VERSION
           docker push $K8S_IMAGE_NAME:latest          
-
-      - name: Build .net core image
-        run: docker build ./tentacle-dotnetcoreworker --tag $DOTNET_CORE_IMAGE_NAME
-    
-      - name: Push .net core image to DockerHub
-        run: |        
-          # Strip git ref prefix from version
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-          # Strip "v" prefix from tag name
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')                    
-          echo VERSION=$VERSION
-
-          docker tag $DOTNET_CORE_IMAGE_NAME $DOTNET_CORE_IMAGE_NAME:latest
-          docker tag $DOTNET_CORE_IMAGE_NAME $DOTNET_CORE_IMAGE_NAME:$VERSION
-          docker push $DOTNET_CORE_IMAGE_NAME:$VERSION
-          docker push $DOTNET_CORE_IMAGE_NAME:latest
-
-      - name: Build java image
-        run: docker build ./tentacle-javaworker --tag $JAVA_IMAGE_NAME
-      
-      - name: Push java image to DockerHub
-        run: |        
-          # Strip git ref prefix from version
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-          # Strip "v" prefix from tag name
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')                    
-          echo VERSION=$VERSION
-
-          docker tag $JAVA_IMAGE_NAME $JAVA_IMAGE_NAME:latest
-          docker tag $JAVA_IMAGE_NAME $JAVA_IMAGE_NAME:$VERSION
-          docker push $JAVA_IMAGE_NAME:$VERSION
-          docker push $JAVA_IMAGE_NAME:latest
-
-      - name: Build nodejs image
-        run: docker build ./tentacle-nodejsworker --tag $NODEJS_IMAGE_NAME
-        
-      - name: Push nodejs image to DockerHub
-        run: |        
-          # Strip git ref prefix from version
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-          # Strip "v" prefix from tag name
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')                    
-          echo VERSION=$VERSION
-
-          docker tag $NODEJS_IMAGE_NAME $NODEJS_IMAGE_NAME:latest
-          docker tag $NODEJS_IMAGE_NAME $NODEJS_IMAGE_NAME:$VERSION
-          docker push $NODEJS_IMAGE_NAME:$VERSION
-          docker push $NODEJS_IMAGE_NAME:latest
 
 

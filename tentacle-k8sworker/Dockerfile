@@ -1,5 +1,6 @@
 FROM octopuslabs/tentacle:latest
 
+ARG Powershell_Version=7.0.3\*
 ARG Azure_Cli_Version=2.10.1\*
 ARG Azure_Powershell_Version=4.7.0
 ARG Helm_Version=v3.3.0
@@ -48,6 +49,9 @@ RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.
     apt-get install -y ca-certificates gnupg && \
     wget -q -O - https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add - && \
     apt-get update && apt-get install -y google-cloud-sdk
+
+# Get python & groff
+RUN apt-get install -y python3-pip groff
 
 # Get AWS CLI
 # https://docs.aws.amazon.com/cli/latest/userguide/install-linux.html#install-linux-awscli
