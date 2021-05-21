@@ -1,6 +1,8 @@
 # Docker Linux Tentacle
 This repository contains the docker files to build a sample Linux-based Docker image that houses a tentacle for [Octopus Deploy](https://octopus.com).
 
+Please note that this is **not** the docker file used by [Octopus Tentacle](https://hub.docker.com/r/octopusdeploy/tentacle).
+
 # This docker image is provided as is
 This docker image was created by the Octopus Advisory Team as an example for our users so they could build their own docker images.  It is used internally and it should work for 99% of your use cases, it is not officially supported.  Please do not contact support if you run into issues with this image. 
 
