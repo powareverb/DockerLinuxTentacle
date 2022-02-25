@@ -6,12 +6,6 @@ on:
     tags:
       - v* 
   workflow_dispatch:
-    inputs:
-      pushContainers:
-        description: 'Push built containers to dockerhub (does not pertain to base tentacle image)'
-        required: true
-        default: false
-        type: boolean
 
 env:
   BASE_IMAGE_NAME: octopuslabs/tentacle
@@ -58,7 +52,6 @@ jobs:
         run: docker build ./tentacle-dotnetcoreworker --tag $DOTNET_CORE_IMAGE_NAME
       
       - name: Push .net core image to DockerHub
-        if: 
         run: |        
           # Strip git ref prefix from version
           VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
