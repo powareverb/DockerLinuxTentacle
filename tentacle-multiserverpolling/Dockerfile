@@ -9,10 +9,10 @@ EXPOSE 10933
 
 WORKDIR /tmp
 
-COPY docker/linux/install-scripts/* /install-scripts/
+COPY ./install-scripts/* /install-scripts/
 RUN chmod +x /install-scripts/*.sh
 
-COPY docker/linux/scripts/* /scripts/
+COPY ./scripts/* /scripts/
 RUN chmod +x /scripts/*.sh
 
 WORKDIR /
