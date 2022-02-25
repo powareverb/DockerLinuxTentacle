@@ -13,6 +13,7 @@ env:
   DOTNET_CORE_IMAGE_NAME: octopuslabs/tentacle-dotnetcoreworker
   JAVA_IMAGE_NAME: octopuslabs/tentacle-javaworker
   NODEJS_IMAGE_NAME: octopuslabs/tentacle-nodejsworker
+  POLLING_MULTI_SERVER_IMAGE_NAME: octopuslabs/tentacle-multiserverpolling
 
 jobs:
   # Push image to GitHub Packages.
@@ -141,4 +142,19 @@ jobs:
           docker push $K8S_IMAGE_NAME:$VERSION
           docker push $K8S_IMAGE_NAME:latest          
 
+      - name: Build multi-server polling image
+        run: docker build ./tentacle-multiserverpolling --tag $POLLING_MULTI_SERVER_IMAGE_NAME
+
+      - name: Push multi-server polling image to DockerHub
+        run: |        
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          # Strip "v" prefix from tag name
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')                    
+          echo VERSION=$VERSION
+
+          docker tag $POLLING_MULTI_SERVER_IMAGE_NAME $POLLING_MULTI_SERVER_IMAGE_NAME:latest
+          docker tag $POLLING_MULTI_SERVER_IMAGE_NAME $POLLING_MULTI_SERVER_IMAGE_NAME:$VERSION
+          docker push $POLLING_MULTI_SERVER_IMAGE_NAME:$VERSION
+          docker push $POLLING_MULTI_SERVER_IMAGE_NAME:latest
 
