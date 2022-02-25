@@ -16,6 +16,7 @@ There are seven images to help get you started.
 - `tentacle-javaworker`: similar to the `tentacle-worker` but only includes the software useful when deployments need to do work with Java.  Based on `tentacle`.
 - `tentacle-nodejsworker`: similar to the `tentacle-worker` but only includes the software useful when deployments need to do work with Node.js.  Based on `tentacle`.
 - `tentacle-executioncontainer`: only includes the necessary software to run the [execution container feature](https://octopus.com/docs/deployment-process/execution-containers-for-workers) in Octopus Deploy.  Based on `mcr.microsoft.com/dotnet/core/runtime-deps`.
+- `tentacle-multiserverpolling`: modified tentacle container that supports registering with multiple servers using a comma separated list in the `ServerUrl` environment variable.  Based on `octopusdeploy/tentacle`.
 
 ## Tentacle
 This is the bare bones to run a tentacle as a docker container.  It is based on the latest .NET Core runtime dependencies `3.1-bionic` image provided by Microsoft.  
@@ -142,6 +143,9 @@ Built on top of the tentacle image.  Unlike the tentacle-worker, this only inclu
 
 ## Tentacle-ExecutionContainer
 Built on top of the tentacle image.  It includes all the software from the base tentacle image plus the necessary software to use the [execution container feature](https://octopus.com/docs/deployment-process/execution-containers-for-workers) in Octopus Deploy.
+
+## Tentacle-MultiServerPolling
+Built on top of the tentacle image. Does not include any additional tooling, but instead supports registering with multiple servers by passing a comma delimited list to the `ServerUrl` environment variable.
 
 # Docker Image information
 The docker container has a few self-imposed limitations.
