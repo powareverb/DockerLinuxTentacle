@@ -1,7 +1,7 @@
-FROM mcr.microsoft.com/dotnet/core/runtime-deps:3.1-bionic
+FROM mcr.microsoft.com/dotnet/runtime-deps:6.0
 
 RUN apt-get update && \
-    apt-get install -y wget unzip apt-utils curl software-properties-common  
+    apt-get install -y wget unzip apt-utils curl software-properties-common gnupg
 
 EXPOSE 10933
 
